@@ -297,9 +297,9 @@ class Api
     /**
      * @return mixed
      */
-    protected function getOption(array $details, string $name)
+    public function getOption(array $details, string $name)
     {
-        if (array_key_exists($name, $details)) {
+        if (array_key_exists($name, $details) && null !== $details[$name]) {
             return $details[$name];
         }
 
