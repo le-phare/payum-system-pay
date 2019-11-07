@@ -38,6 +38,7 @@ class SystemPayGatewayFactory extends GatewayFactory
                 Api::FIELD_VADS_PAGE_ACTION       => Api::PAGE_ACTION_PAYMENT,
                 Api::FIELD_VADS_PAYMENT_CONFIG    => Api::PAYMENT_CONFIG_SINGLE,
                 Api::FIELD_VADS_VERSION           => Api::V2,
+                Api::FIELD_VADS_URL_CHECK         => null,
                 'sandbox'                         => true,
                 'certif_prod'                     => null,
                 'certif_test'                     => null,
