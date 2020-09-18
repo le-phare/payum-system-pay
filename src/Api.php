@@ -269,6 +269,7 @@ class Api
         $details[self::FIELD_VADS_PAGE_ACTION]    = $this->getOption($details, self::FIELD_VADS_PAGE_ACTION);
         $details[self::FIELD_VADS_PAYMENT_CONFIG] = $this->getOption($details, self::FIELD_VADS_PAYMENT_CONFIG);
         $details[self::FIELD_VADS_VERSION]        = $this->getOption($details, self::FIELD_VADS_VERSION);
+        $details[self::FIELD_VADS_URL_CHECK]      = $this->getOption($details, self::FIELD_VADS_URL_CHECK);
 
         $details['signature'] = $this->signatureGenerator->generate($details, $this->getCertificate(), $this->getHashAlgorithm());
 
@@ -302,9 +303,9 @@ class Api
     /**
      * @return mixed
      */
-    protected function getOption(array $details, string $name)
+    public function getOption(array $details, string $name)
     {
-        if (array_key_exists($name, $details)) {
+        if (array_key_exists($name, $details) && null !== $details[$name]) {
             return $details[$name];
         }
 
