@@ -2,8 +2,13 @@
 
 > A Payum gateway to use [SystemPay](https://paiement.systempay.fr) (a French payment system)
 
-[![Latest Stable Version](https://poser.pugx.org/yproximite/payum-system-pay/version)](https://packagist.org/packages/yproximite/payum-system-pay)
+[![Latest Stable Version](https://poser.pugx.org/lephare/payum-system-pay/version)](https://packagist.org/packages/lephare/payum-system-pay)
 [![Build Status](https://travis-ci.com/Yproximite/payum-system-pay.svg?token=pNBs2oaRpfxdyhqWf28h&branch=master)](https://travis-ci.com/Yproximite/payum-system-pay)
+
+## Forked from
+
+![Yproximite](https://github.com/Yproximite/payum-system-pay)
+
 
 ## Requirements
 
@@ -14,8 +19,12 @@
 ## Installation
 
 ```bash
-$ composer require yproximite/payum-system-pay
+$ composer require lephare/payum-system-pay
 ```
+
+## Integrate in your project
+
+TODO
 
 ## Configuration
 
@@ -41,9 +50,9 @@ payum:
   gateways:
     system_pay:
       factory: system_pay
-      vads_site_id: 'change it' # required 
-      certif_prod: 'change it' # required 
-      certif_test: 'change it' # required 
+      vads_site_id: 'change it' # required
+      certif_prod: 'change it' # required
+      certif_test: 'change it' # required
       sandbox: true
       hash_algorithm: 'algo-sha1' # or 'algo-hmac-sha256'
 ```
@@ -79,7 +88,7 @@ $payum = (new PayumBuilder())
 We wanted to use `sha1` or `hmac-256`, but there is currently a [Payum limitation](https://github.com/Payum/Payum/issues/692) which try to call `sha1` because it's a valid callable.
 
 As a workaround, the only easy solution we thought was to prefix them with `algo-`.
-Since `algo-sha1` is not a valid callable, there is no Payum issues and everything works well. 
+Since `algo-sha1` is not a valid callable, there is no Payum issues and everything works well.
 
 ## Usage
 
@@ -117,7 +126,7 @@ class Payment extends BasePayment
 }
 ```
 
-By doing this, the library will be able to pick the payment's id and use it for the payment with System Pay (we should send a transaction id between `000000` and `999999`). 
+By doing this, the library will be able to pick the payment's id and use it for the payment with System Pay (we should send a transaction id between `000000` and `999999`).
 
 ### Payment in several instalments
 

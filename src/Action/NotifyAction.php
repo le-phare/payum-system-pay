@@ -7,20 +7,24 @@ namespace Yproximite\Payum\SystemPay\Action;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
-use Payum\Core\GatewayAwareInterface;
-use Payum\Core\GatewayAwareTrait;
-use Payum\Core\Reply\HttpResponse;
-use Payum\Core\Request\GetHttpRequest;
-use Payum\Core\Request\Notify;
+use Yproximite\Payum\SystemPay\Api;
+use Yproximite\Payum\SystemPay\Request\GetNotifyInterface;
+use Yproximite\Payum\SystemPay\Request\RequestNotifyApplier;
 
-class NotifyAction implements ActionInterface, GatewayAwareInterface
+class NotifyAction implements ActionInterface
 {
-    use GatewayAwareTrait;
+    /** @var RequestNotifyApplier */
+    private $requestNotifyApplier;
+
+    public function __construct(RequestNotifyApplier $requestNotifyApplier)
+    {
+        $this->requestNotifyApplier = $requestNotifyApplier;
+    }
 
     /**
      * {@inheritdoc}
      *
-     * @param Notify $request
+     * @param GetNotifyInterface $request
      */
     public function execute($request)
     {
@@ -28,10 +32,7 @@ class NotifyAction implements ActionInterface, GatewayAwareInterface
 
         $model = ArrayObject::ensureArrayObject($request->getModel());
 
-        $this->gateway->execute($httpRequest = new GetHttpRequest());
-        $model->replace($httpRequest->request);
-
-        throw new HttpResponse('OK', 200);
+        $this->requestNotifyApplier->apply($model[Api::FIELD_VADS_TRANS_STATUS], $request, $model);
     }
 
     /**
@@ -40,7 +41,7 @@ class NotifyAction implements ActionInterface, GatewayAwareInterface
     public function supports($request)
     {
         return
-            $request instanceof Notify &&
+            $request instanceof GetNotifyInterface &&
             $request->getModel() instanceof \ArrayAccess;
     }
 }

@@ -44,9 +44,8 @@ class CaptureAction extends BaseApiAwareAction implements ActionInterface, Gatew
         }
 
         if ($this->api && null !== $this->api->getOption($details->toUnsafeArray(), Api::FIELD_VADS_URL_CHECK)) {
-            $details[Api::FIELD_VADS_URL_CHECK] = $this->api->getOption($details->toUnsafeArray(), Api::FIELD_VADS_URL_CHECK) . $notifyToken->getHash();
-        }
-        elseif (null === $details[Api::FIELD_VADS_URL_CHECK]) {
+            $details[Api::FIELD_VADS_URL_CHECK] = $this->api->getOption($details->toUnsafeArray(), Api::FIELD_VADS_URL_CHECK).$notifyToken->getHash();
+        } elseif (null === $details[Api::FIELD_VADS_URL_CHECK]) {
             $details[Api::FIELD_VADS_URL_CHECK] = $notifyToken->getTargetUrl();
         }
 

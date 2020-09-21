@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yproximite\Payum\SystemPay\Tests;
 
-use Payum\Core\Bridge\Guzzle\HttpClientFactory;
 use Payum\Core\Bridge\Spl\ArrayObject;
+use ReflectionClass;
 use Yproximite\Payum\SystemPay\SystemPayGatewayFactory;
 
 class SystemPayGatewayFactoryTest extends \PHPUnit\Framework\TestCase
@@ -15,7 +15,7 @@ class SystemPayGatewayFactoryTest extends \PHPUnit\Framework\TestCase
      */
     public function shouldSubClassGatewayFactory()
     {
-        $rc = new \ReflectionClass('Yproximite\Payum\SystemPay\SystemPayGatewayFactory');
+        $rc = new ReflectionClass('Yproximite\Payum\SystemPay\SystemPayGatewayFactory');
 
         $this->assertTrue($rc->isSubclassOf('Payum\Core\GatewayFactory'));
     }
@@ -47,7 +47,7 @@ class SystemPayGatewayFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('Yproximite\Payum\SystemPay\Request\RequestStatusApplier', $config['payum.request_status_applier']);
 
         $this->assertInstanceOf('Yproximite\Payum\SystemPay\Action\CaptureAction', $config['payum.action.capture']);
-        $this->assertInstanceOf('Yproximite\Payum\SystemPay\Action\NotifyAction', $config['payum.action.notify']);
+        $this->assertInstanceOf('Yproximite\Payum\SystemPay\Action\NotifyAction', $config['payum.action.notify'](ArrayObject::ensureArrayObject($config)));
         $this->assertInstanceOf('Yproximite\Payum\SystemPay\Action\StatusAction', $config['payum.action.status'](ArrayObject::ensureArrayObject($config)));
         $this->assertInstanceOf('Yproximite\Payum\SystemPay\Action\ConvertPaymentAction', $config['payum.action.convert_payment']);
 

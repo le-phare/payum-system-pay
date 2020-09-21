@@ -15,7 +15,6 @@ use Yproximite\Payum\SystemPay\Action\ConvertPaymentAction;
 class ConvertPaymentActionTest extends GenericActionTest
 {
     protected $requestClass = Convert::class;
-
     protected $actionClass = ConvertPaymentAction::class;
 
     public function provideSupportedRequests()

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Yproximite\Payum\SystemPay\Request;
 
-use Payum\Core\Request\GetStatusInterface as Request;
+use Payum\Core\Request\Notify as Request;
 use Yproximite\Payum\SystemPay\Api;
 
-class RequestStatusApplier
+class RequestNotifyApplier
 {
     /** @var array<string, callable<Request>> */
     protected $appliers = [];

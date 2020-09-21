@@ -10,6 +10,7 @@ use Yproximite\Payum\SystemPay\Action\CaptureAction;
 use Yproximite\Payum\SystemPay\Action\ConvertPaymentAction;
 use Yproximite\Payum\SystemPay\Action\NotifyAction;
 use Yproximite\Payum\SystemPay\Action\StatusAction;
+use Yproximite\Payum\SystemPay\Request\RequestNotifyApplier;
 use Yproximite\Payum\SystemPay\Request\RequestStatusApplier;
 
 class SystemPayGatewayFactory extends GatewayFactory
@@ -24,7 +25,10 @@ class SystemPayGatewayFactory extends GatewayFactory
             'payum.factory_title'          => 'system_pay',
             'payum.action.capture'         => new CaptureAction(),
             'payum.action.convert_payment' => new ConvertPaymentAction(),
-            'payum.action.notify'          => new NotifyAction(),
+            'payum.action.notify'          => function (ArrayObject $config) {
+                return new NotifyAction($config['payum.request_notify_applier']);
+            },
+            'payum.request_notify_applier' => new RequestNotifyApplier(),
             'payum.action.status'          => function (ArrayObject $config) {
                 return new StatusAction($config['payum.request_status_applier']);
             },

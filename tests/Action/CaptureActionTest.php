@@ -15,7 +15,6 @@ use Yproximite\Payum\SystemPay\Api;
 class CaptureActionTest extends GenericActionTest
 {
     protected $requestClass = Capture::class;
-
     protected $actionClass = CaptureAction::class;
 
     /**
