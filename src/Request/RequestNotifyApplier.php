@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yproximite\Payum\SystemPay\Request;
 
-use Payum\Core\Request\Notify as Request;
 use Yproximite\Payum\SystemPay\Api;
+use Yproximite\Payum\SystemPay\Request\GetNotifyInterface as Request;
 
 class RequestNotifyApplier
 {
