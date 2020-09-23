@@ -143,8 +143,8 @@ class GetHumanNotify extends BaseGetNotify
      *
      * @return bool
      */
-    protected function isCurrentNotifyEqualTo($expectedStatus)
+    protected function isCurrentNotifyEqualTo($expectedNotify)
     {
-        return $this->getValue() === $expectedStatus;
+        return $this->getValue() === $expectedNotify;
     }
 }

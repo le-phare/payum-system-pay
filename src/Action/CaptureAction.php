@@ -32,6 +32,7 @@ class CaptureAction extends BaseApiAwareAction implements ActionInterface, Gatew
 
         $details = ArrayObject::ensureArrayObject($request->getModel());
 
+        // Don't execute Action if request contains sytempay result field data
         if (null !== $details[Api::FIELD_VADS_RESULT]) {
             return;
         }
