@@ -19,7 +19,7 @@ class NotifyAction implements ActionInterface
     {
         RequestNotSupportedException::assertSupports($this, $request);
 
-        $details = ArrayObject::ensureArrayObject($request->getFirstModel());
+        $details = ArrayObject::ensureArrayObject($request->getModel());
         $status = $details[Api::FIELD_VADS_TRANS_STATUS];
 
         switch ($status) {

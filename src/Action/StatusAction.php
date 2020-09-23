@@ -20,7 +20,7 @@ class StatusAction implements ActionInterface
         RequestNotSupportedException::assertSupports($this, $request);
 
         $details = ArrayObject::ensureArrayObject($request->getModel());
-        $status = strtolower($details[Api::FIELD_VADS_TRANS_STATUS]);
+        $status = $details[Api::FIELD_VADS_TRANS_STATUS];
 
         switch ($status) {
             case Api::STATUS_AUTHORISED:
