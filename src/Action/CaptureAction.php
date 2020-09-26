@@ -32,8 +32,8 @@ class CaptureAction extends BaseApiAwareAction implements ActionInterface, Gatew
 
         $details = ArrayObject::ensureArrayObject($request->getModel());
 
-        // Don't execute Action if request contains sytempay result field data
-        if (null !== $details[Api::FIELD_VADS_RESULT]) {
+        // don't execute CaptureAction (avoid doPayment call) if request contains SytemPay populated result field data
+        if (null !== $details[Api::FIELD_VADS_RESULT] || '00' === $details[Api::FIELD_VADS_RESULT]) {
             return;
         }
 
@@ -44,26 +44,23 @@ class CaptureAction extends BaseApiAwareAction implements ActionInterface, Gatew
             );
         }
 
+        // populate this by your own "notify" route
         if ($this->api && null !== $this->api->getOption($details->toUnsafeArray(), Api::FIELD_VADS_URL_CHECK)) {
             $details[Api::FIELD_VADS_URL_CHECK] = $this->api->getOption($details->toUnsafeArray(), Api::FIELD_VADS_URL_CHECK).$notifyToken->getHash();
         } elseif (null === $details[Api::FIELD_VADS_URL_CHECK]) {
+            // you need to override the parameter "payum.notify_path" in your payum.yml "parameters" definition
+            // by your own notify route to get it working
             $details[Api::FIELD_VADS_URL_CHECK] = $notifyToken->getTargetUrl();
         }
 
-        if (null === $details[Api::FIELD_VADS_URL_CANCEL] && $request->getToken() instanceof TokenInterface) {
-            // We are directly redirecting the user to the "done" page if he cancels payment.
-            // Because when he clicks on the button "Retourner à la boutique", SystemPay does not send us back
-            // data (POST or GET) to tell us the user canceled his payment.
-            //
-            // That means the user was redirected to the "capture" page:
-            //  - which calls `ConvertPaymentAction`, but there is no data to use (like a field `vads_cancelled`), so the payment is like a NEW payment
-            //  - which calls this `CaptureAction`, and since there is no `Api::FIELD_VADS_RESULT` field defined, it executes `$this->api->doPayment()` again
-            //
-            // So it's bad, and we should trick the "done" page to display an error if the payment is new.
-            $details[Api::FIELD_VADS_URL_CANCEL] = $request->getToken()->getAfterUrl();
+        // populate this by your own "done" route.
+        // setting "vads_url_return" unique route replace 4 other routes:
+        // "vads_url_cancel", "vads_url_error", "vads_url_refused" and "vads_url_success"
+        if ($this->api && null !== $this->api->getOption($details->toUnsafeArray(), Api::FIELD_VADS_URL_RETURN)) {
+            $details[Api::FIELD_VADS_URL_RETURN] = $this->api->getOption($details->toUnsafeArray(), Api::FIELD_VADS_URL_RETURN).$notifyToken->getHash();
+        } else {
+            $details[Api::FIELD_VADS_URL_RETURN] = $request->getToken()->getAfterUrl();
         }
-
-        $details[Api::FIELD_VADS_URL_RETURN] = $request->getToken()->getTargetUrl();
 
         $this->api->doPayment((array) $details);
     }

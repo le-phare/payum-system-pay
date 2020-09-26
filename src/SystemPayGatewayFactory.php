@@ -8,7 +8,6 @@ use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\GatewayFactory;
 use Yproximite\Payum\SystemPay\Action\CaptureAction;
 use Yproximite\Payum\SystemPay\Action\ConvertPaymentAction;
-use Yproximite\Payum\SystemPay\Action\NotifyAction;
 use Yproximite\Payum\SystemPay\Action\StatusAction;
 
 class SystemPayGatewayFactory extends GatewayFactory
@@ -23,7 +22,7 @@ class SystemPayGatewayFactory extends GatewayFactory
             'payum.factory_title' => 'system_pay',
             'payum.action.capture' => new CaptureAction(),
             'payum.action.convert_payment' => new ConvertPaymentAction(),
-            'payum.action.notify' => new NotifyAction(),
+            'payum.action.notify' => new StatusAction(),
             'payum.action.status' => new StatusAction(),
         ]);
 

@@ -44,8 +44,6 @@ class SystemPayGatewayFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('system_pay', $config['payum.factory_name']);
         $this->assertSame('system_pay', $config['payum.factory_title']);
 
-        $this->assertInstanceOf('Yproximite\Payum\SystemPay\Request\RequestStatusApplier', $config['payum.request_status_applier']);
-
         $this->assertInstanceOf('Yproximite\Payum\SystemPay\Action\CaptureAction', $config['payum.action.capture']);
         $this->assertInstanceOf('Yproximite\Payum\SystemPay\Action\NotifyAction', $config['payum.action.notify'](ArrayObject::ensureArrayObject($config)));
         $this->assertInstanceOf('Yproximite\Payum\SystemPay\Action\StatusAction', $config['payum.action.status'](ArrayObject::ensureArrayObject($config)));
